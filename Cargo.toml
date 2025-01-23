@@ -29,6 +29,7 @@ cyw43 = { version = "0.2.0", features = ["defmt", "firmware-logs"] }
 cyw43-pio = { version = "0.2.0", features = ["defmt", "overclock"] }
 static_cell = { version = "2"}
 portable-atomic = { version = "1.5.1", features = ["critical-section"] }
+lcd-lcm1602-i2c = { version = "0.3.0", features = ["async"] }
 
 # cargo build/run
 [profile.dev]
