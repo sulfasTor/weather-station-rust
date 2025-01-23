@@ -1,0 +1,11 @@
+#+title: Weather Station Pico Project
+* Sensors
+- GI5516 Photoresistor (Light Sensor)
+- BMP180 Digital Barometric Pressure Sensor Module
+- DHT11 Temperature & Humidity Sensor Module
+
+* Outputs
+- I2C 1602 Serial LCD
+
+* Diagram (so far)
+[[file:weather_station.png]]
