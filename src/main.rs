@@ -6,7 +6,7 @@
 #![no_std]
 #![no_main]
 use embassy_rp::i2c::InterruptHandler;
-use embassy_time::{Delay, Timer, Duration};
+use embassy_time::{Delay, Duration, Timer};
 use lcd_lcm1602_i2c::async_lcd::Lcd;
 use {defmt_rtt as _, panic_probe as _};
 
