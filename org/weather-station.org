@@ -1,0 +1,172 @@
+#+TITLE: Rust Weather Station Learning Project
+#+STARTUP: overview
+#+CATEGORY: WeatherStation
+#+TODO: TODO IN-PROGRESS BLOCKED REVIEW DONE
+
+* Project Overview
+This is a hands-on Rust learning project using a Raspberry Pi Pico W. It reads environmental data (light, temperature, humidity, pressure), displays it on an LCD, and serves it via an embedded HTTP API.
+
+You'll learn embedded Rust, async, traits, device abstraction, and Wi-Fi communication.
+
+* Hardware Components
+- GI5516 Light Sensor (analog)
+- BMP180 Pressure Sensor (I2C)
+- DHT11 Temp/Humidity (digital)
+- I2C 1602 LCD Display
+- Raspberry Pi Pico W
+
+* Phase 1: Hardware Setup & Display
+
+** TODO Solder LCD to protoboard
+SCHEDULED: <2025-07-03 Thu>
+DEADLINE: <2025-07-04 Fri>
+- [ ] Pin layout check (VCC, GND, SDA, SCL)
+- [ ] Solder and inspect joints
+- [ ] Test I2C connection with LCD address
+
+** TODO Write minimal LCD driver usage
+SCHEDULED: <2025-07-05 Sat>
+DEADLINE: <2025-07-06 Sun>
+- [ ] Understand `lcd-lcm1602-i2c` API
+- [ ] Use Embassy I2C & Delay
+- [ ] Display static text on both lines
+- [ ] Learn about lifetime annotations in `init_lcd`
+
+* Rust Learning Goals
+- Ownership of I2C and LCD structs
+- Lifetimes and async init patterns
+- Embassy HAL I2C basics
+
+---
+
+* Phase 2: Sensor Integration
+
+** TODO Connect and read GI5516 Light Sensor (ADC)
+SCHEDULED: <2025-07-07 Mon>
+DEADLINE: <2025-07-08 Tue>
+- [ ] Learn Embassy ADC usage
+- [ ] Convert analog value to % light
+- [ ] Display "Light: 78%" on LCD
+
+** TODO Integrate BMP180 Pressure Sensor (I2C)
+SCHEDULED: <2025-07-09 Wed>
+DEADLINE: <2025-07-11 Fri>
+- [ ] Connect sensor via I2C
+- [ ] Use or write simple BMP180 driver
+- [ ] Read & convert pressure
+- [ ] Format string like "Pressure: 1013 hPa"
+
+** TODO Read DHT11 Temp & Humidity Sensor
+SCHEDULED: <2025-07-12 Sat>
+DEADLINE: <2025-07-14 Mon>
+- [ ] Learn DHT11 timing protocol
+- [ ] Read data from GPIO pin
+- [ ] Display "Temp: 26°C RH: 55%"
+
+* Rust Learning Goals
+- Embedded-hal traits: ADC, I2C, digital I/O
+- Dealing with timing constraints
+- Error handling (`Result`, `Option`)
+- Converting raw sensor data
+
+---
+
+* Phase 3: Display System
+
+** TODO Display sensor readings cyclically
+SCHEDULED: <2025-07-15 Tue>
+DEADLINE: <2025-07-16 Wed>
+- [ ] Use Embassy `Timer::after` for delay
+- [ ] Cycle Light → Pressure → Temp/Humidity
+- [ ] Refresh LCD cleanly with `.clear()`
+
+** TODO Add graceful error messages on LCD
+SCHEDULED: <2025-07-17 Thu>
+DEADLINE: <2025-07-18 Fri>
+- [ ] Show "Sensor X Error" when reads fail
+- [ ] Catch and log sensor errors
+
+* Rust Learning Goals
+- Timers & async/await logic
+- `match`, pattern matching
+- Display formatting with `core::fmt::Write`
+
+---
+
+* Phase 4: Code Architecture & Abstraction
+
+** TODO Abstract sensors into a trait system
+SCHEDULED: <2025-07-19 Sat>
+DEADLINE: <2025-07-21 Mon>
+- [ ] Define `WeatherSensor` trait
+- [ ] Implement for LightSensor, Bmp180, Dht11
+- [ ] Use boxed trait objects or generics
+
+** TODO Create display controller module
+SCHEDULED: <2025-07-22 Tue>
+DEADLINE: <2025-07-23 Wed>
+- [ ] Pass list of sensors to display manager
+- [ ] Print current value of each
+- [ ] Decouple logic from `main.rs`
+
+* Rust Learning Goals
+- Traits and dynamic dispatch
+- Lifetimes in trait objects
+- Modular code & reuse
+- Separation of concerns
+
+---
+
+* Phase 5: Networking & API
+
+** TODO Enable Wi-Fi on Pico W
+SCHEDULED: <2025-07-24 Thu>
+DEADLINE: <2025-07-26 Sat>
+- [ ] Connect to local Wi-Fi
+- [ ] Learn Embassy + CYW43 driver
+
+** TODO Serve sensor values on HTTP endpoint
+SCHEDULED: <2025-07-27 Sun>
+DEADLINE: <2025-07-30 Wed>
+- [ ] Serve `GET /api/weather`
+- [ ] Return JSON: { "light": x, "temp": y, ... }
+- [ ] Test with browser & curl
+
+** TODO Optional: Serve basic HTML status page
+SCHEDULED: <2025-07-31 Thu>
+DEADLINE: <2025-08-02 Sat>
+- [ ] Render sensor values in HTML
+- [ ] Serve page on `/status`
+- [ ] Embed refresh every 5s
+
+* Rust Learning Goals
+- Embassy networking stack (TCP, async)
+- Wi-Fi provisioning
+- Building & serializing JSON with `serde`
+- Minimal embedded web server design
+
+---
+
+* Phase 6: Polish & Reflection
+
+** TODO Test for long-term stability
+SCHEDULED: <2025-08-03 Sun>
+DEADLINE: <2025-08-05 Tue>
+- [ ] Run for 12+ hours
+- [ ] Check power draw, memory usage
+- [ ] Handle disconnection gracefully
+
+** TODO Final code cleanup & learning notes
+SCHEDULED: <2025-08-06 Wed>
+DEADLINE: <2025-08-08 Fri>
+- [ ] Write README with build + wiring instructions
+- [ ] Summarize what you learned
+- [ ] Archive the repo and flash firmware
+
+---
+
+* Future Ideas (optional)
+- Log to SD card (SPI)
+- Bluetooth LE broadcast
+- OTA firmware updates
+- Integrate with MQTT/Home Assistant
